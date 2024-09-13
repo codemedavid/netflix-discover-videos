@@ -1,6 +1,8 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import styles from "./card.module.css";
+import { motion } from "framer-motion";
+import cls from "classnames";
 export default function Card(props: {
   imgUrl: string;
   size: "large" | "medium" | "small";
@@ -23,7 +25,10 @@ export default function Card(props: {
   return (
     <div className={styles.container}>
       Card
-      <div className={classMap[size]}>
+      <motion.div
+        whileHover={{ scale: 1.2 }}
+        className={cls(classMap[size], styles.imgMotionWrapper)}
+      >
         <Image
           src={imgSrc}
           alt='image'
@@ -32,7 +37,7 @@ export default function Card(props: {
           className={styles.cardImg}
           onError={handleOnError}
         />
-      </div>
+      </motion.div>
     </div>
   );
 }
