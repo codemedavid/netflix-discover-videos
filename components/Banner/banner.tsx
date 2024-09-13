@@ -15,7 +15,7 @@ export default function Banner(props: {
       <div className={styles.leftWrapper}>
         <div className={styles.left}>
           <div className={styles.nseriesWrapper}>
-            <p className={styles.firstLetter}>N</p>
+            <p className={styles.firstLetter}>D</p>
             <p className={styles.series}>S E R I E S</p>
           </div>
           <h3 className={styles.title}>{title}</h3>
