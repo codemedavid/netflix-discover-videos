@@ -3,14 +3,25 @@ import styles from "@/styles/Home.module.css";
 import { Roboto_Slab } from "next/font/google";
 import Banner from "@/components/Banner/banner";
 import NavBar from "@/components/nav/navBar";
-import Card from "@/components/Card/Card";
+import SectionCards from "@/components/Card/SectionCards";
+import { getVideos } from "@/lib/videos";
 export const roboto = Roboto_Slab({
   subsets: ["latin"],
   display: "swap",
   weight: "400",
 });
 
-export default function Home() {
+export const getServerSideProps = async () => {
+  const disneyVideos = await getVideos();
+
+  return { props: { disneyVideos } };
+};
+
+export default function Home({
+  disneyVideos,
+}: {
+  disneyVideos: [{ imgUrl: string; id?: string }];
+}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -26,10 +37,15 @@ export default function Home() {
         subTitle='a very cute dog'
         imgUrl='/static/clifford.webp'
       />
+      <div className={styles.sectionWrapper}>
+        <SectionCards title='Disney' videos={disneyVideos} size='large' />
 
-      <Card imgUrl='/static/clifford.webp' size='large' />
-      <Card imgUrl='/static/cliffor.webp' size='medium' />
-      <Card imgUrl='/static/clifford.webp' size='small' />
+        <SectionCards
+          title='Productivity Videos'
+          videos={disneyVideos}
+          size='small'
+        />
+      </div>
     </div>
   );
 }
