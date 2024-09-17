@@ -4,7 +4,7 @@ import { Roboto_Slab } from "next/font/google";
 import Banner from "@/components/Banner/banner";
 import NavBar from "@/components/nav/navBar";
 import SectionCards from "@/components/Card/SectionCards";
-import { getVideos } from "@/lib/videos";
+import { getPopularVideos, getVideos } from "@/lib/videos";
 export const roboto = Roboto_Slab({
   subsets: ["latin"],
   display: "swap",
@@ -12,15 +12,24 @@ export const roboto = Roboto_Slab({
 });
 
 export const getServerSideProps = async () => {
-  const disneyVideos = await getVideos();
+  const disneyVideos = await getVideos("disney");
+  const travel = await getVideos("Productivity");
+  const qubits = await getVideos("QubitScube");
+  const popular = await getPopularVideos();
 
-  return { props: { disneyVideos } };
+  return { props: { disneyVideos, travel, qubits, popular } };
 };
 
 export default function Home({
   disneyVideos,
+  travel,
+  qubits,
+  popular,
 }: {
   disneyVideos: [{ imgUrl: string; id?: string }];
+  travel: [{ imgUrl: string; id?: string }];
+  qubits: [{ imgUrl: string; id?: string }];
+  popular: [{ imgUrl: string; id?: string }];
 }) {
   return (
     <div className={styles.container}>
@@ -39,12 +48,15 @@ export default function Home({
       />
       <div className={styles.sectionWrapper}>
         <SectionCards title='Disney' videos={disneyVideos} size='large' />
+        <SectionCards title='Popular' videos={popular} size='small' />
 
         <SectionCards
           title='Productivity Videos'
-          videos={disneyVideos}
-          size='small'
+          videos={travel}
+          size='medium'
         />
+
+        <SectionCards title='QubitScube' videos={qubits} size='small' />
       </div>
     </div>
   );

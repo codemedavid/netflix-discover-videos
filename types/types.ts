@@ -1,6 +1,7 @@
 export type ytItem = {
   kind: string;
   etag: string;
+  statistics: number;
   id: {
     kind: string;
     videoId?: string;

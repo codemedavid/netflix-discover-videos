@@ -28,6 +28,7 @@
 
 .logoWrapper {
   color: var(--red);
+  font-size: 2rem;
   width: 8rem /* 128px */;
 }
 
