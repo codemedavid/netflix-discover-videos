@@ -1,4 +1,9 @@
-import React, { SyntheticEvent, useEffect, useState } from "react";
+import React, {
+  BaseSyntheticEvent,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from "react";
 import Link from "next/link";
 import styles from "./navBar.module.css";
 import Image from "next/image";
@@ -35,6 +40,16 @@ export default function NavBar() {
     setShowDropdown(!showDropdown);
   };
 
+  const handleSignOut = async (e: BaseSyntheticEvent) => {
+    e.preventDefault();
+    try {
+      await (magic as Magic).user.logout();
+      console.log(await (magic as Magic).user.isLoggedIn());
+    } catch (error) {
+      console.error("Error signing out");
+    }
+  };
+
   const [showDropdown, setShowDropdown] = useState(false);
   return (
     <div className={styles.container}>
@@ -65,7 +80,11 @@ export default function NavBar() {
             {showDropdown && (
               <div className={styles.navDropdown}>
                 <div>
-                  <Link href='/login' className={styles.linkName}>
+                  <Link
+                    href='/login'
+                    className={styles.linkName}
+                    onClick={handleSignOut}
+                  >
                     Sign out
                     <div className={styles.lineWrapper}></div>
                   </Link>
