@@ -3,19 +3,38 @@ import { useRouter } from "next/router";
 import React, { BaseSyntheticEvent, useState } from "react";
 import Link from "next/link";
 import styles from "../styles/Login.module.css";
+import { magic } from "@/lib/magic.client";
+import { Magic } from "magic-sdk";
 export default function Login() {
   const router = useRouter();
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLoginWithEmail = (e: BaseSyntheticEvent) => {
+  const handleLoginWithEmail = async (e: BaseSyntheticEvent) => {
     e.preventDefault();
     if (email) {
-      if (email === "jad@flix.com") router.push("/");
-      else setMessage("Something went wrong...");
+      try {
+        setIsLoading(true);
+        const didToken = await (magic as Magic).auth.loginWithMagicLink({
+          email,
+        });
+        console.log({ didToken });
+        if (didToken) {
+          setIsLoading(false);
+          router.push("/");
+        }
+      } catch (err) {
+        // Handle errors if required!
+        console.log("Something went wrong", err);
+        setIsLoading(false);
+      }
+      // if (email === "jad@flix.com") router.push("/");
+      // else setMessage("Something went wrong...");
     } else {
       //show message to user
       setMessage("Please enter a valid email address");
+      setIsLoading(false);
     }
   };
 
@@ -49,7 +68,7 @@ export default function Login() {
           />
           <p className={styles.userMsg}>{message}</p>
           <button onClick={handleLoginWithEmail} className={styles.loginBtn}>
-            Sign in
+            {isLoading ? "Loading..." : "Sign In"}
           </button>
         </div>
       </main>
