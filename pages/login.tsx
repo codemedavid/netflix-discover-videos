@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import React, { BaseSyntheticEvent, useState } from "react";
+import React, { BaseSyntheticEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../styles/Login.module.css";
 import { magic } from "@/lib/magic.client";
@@ -10,6 +10,19 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const handleComplete = () => {
+      setIsLoading(false);
+    };
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+    };
+  }, [router]);
 
   const handleLoginWithEmail = async (e: BaseSyntheticEvent) => {
     e.preventDefault();
@@ -21,7 +34,6 @@ export default function Login() {
         });
         console.log({ didToken });
         if (didToken) {
-          setIsLoading(false);
           router.push("/");
         }
       } catch (err) {

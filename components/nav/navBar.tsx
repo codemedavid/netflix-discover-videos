@@ -1,10 +1,25 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "./navBar.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
-export default function NavBar(props: { username: string }) {
-  const { username } = props;
+import { magic } from "@/lib/magic.client";
+import { Magic } from "magic-sdk";
+export default function NavBar() {
+  const [username, setUsername] = useState("");
+  useEffect(() => {
+    async function getUsername() {
+      try {
+        const { email } = await (magic as Magic).user.getInfo();
+        if (email) {
+          setUsername(email);
+        }
+      } catch (error) {
+        console.log("Error retrieving email:", error);
+      }
+    }
+    getUsername();
+  }, []);
   const router = useRouter();
   const handleOnClikHome = (e: SyntheticEvent) => {
     e.preventDefault();

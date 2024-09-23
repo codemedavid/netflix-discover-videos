@@ -33,6 +33,7 @@ export default function Home({
   popular: [{ imgUrl: string; id?: string }];
 }) {
   console.log({ magic });
+
   return (
     <div className={styles.container}>
       <Head>
@@ -42,7 +43,7 @@ export default function Home({
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <NavBar username='jad@flix.com' />
+      <NavBar />
       <Banner
         title='Clifford the red dog'
         subTitle='a very cute dog'
