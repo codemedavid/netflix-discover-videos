@@ -2,6 +2,7 @@ import videoTestData from "../data/videos.json";
 import { ytItem } from "@/types/types";
 const fetchVideos = async (url: string) => {
   const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+
   const BASE_URL = "youtube.googleapis.com/youtube/v3";
 
   const response = await fetch(

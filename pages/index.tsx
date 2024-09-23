@@ -5,6 +5,7 @@ import Banner from "@/components/Banner/banner";
 import NavBar from "@/components/nav/navBar";
 import SectionCards from "@/components/Card/SectionCards";
 import { getPopularVideos, getVideos } from "@/lib/videos";
+import { magic } from "@/lib/magic.client";
 export const roboto = Roboto_Slab({
   subsets: ["latin"],
   display: "swap",
@@ -31,6 +32,7 @@ export default function Home({
   qubits: [{ imgUrl: string; id?: string }];
   popular: [{ imgUrl: string; id?: string }];
 }) {
+  console.log({ magic });
   return (
     <div className={styles.container}>
       <Head>

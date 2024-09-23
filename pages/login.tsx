@@ -7,21 +7,24 @@ export default function Login() {
   const router = useRouter();
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
+
   const handleLoginWithEmail = (e: BaseSyntheticEvent) => {
     e.preventDefault();
     if (email) {
       if (email === "jad@flix.com") router.push("/");
       else setMessage("Something went wrong...");
     } else {
-      //show
+      //show message to user
       setMessage("Please enter a valid email address");
     }
   };
+
   const handleOnChangeEmail = (e: BaseSyntheticEvent) => {
     setMessage("");
     const email = e.target.value;
     setEmail(email);
   };
+
   return (
     <div className={styles.container}>
       <Head>
