@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { Magic } from "magic-sdk";
 import { magic } from "@/lib/magic.client";
 import { useRouter } from "next/router";
+import Loading from "@/components/loading/loading";
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const handleComplete = () => {
@@ -21,16 +22,15 @@ export default function App({ Component, pageProps }: AppProps) {
     };
   }, [router]);
   useEffect(() => {
-    const checkLogin = async () => {
-      const isLoggedIn = await (magic as Magic).user.isLoggedIn();
-      if (isLoggedIn) {
-        router.push("/");
-      } else {
-        router.push("/login");
-      }
-    };
-
-    checkLogin();
+    // const checkLogin = async () => {
+    //   const isLoggedIn = await (magic as Magic).user.isLoggedIn();
+    //   if (isLoggedIn) {
+    //     router.push("/");
+    //   } else {
+    //     router.push("/login");
+    //   }
+    // };
+    // checkLogin();
   }, [router]);
-  return isLoading ? <div>Loading..</div> : <Component {...pageProps} />;
+  return isLoading ? <Loading /> : <Component {...pageProps} />;
 }
